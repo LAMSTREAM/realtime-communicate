@@ -1,0 +1,108 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model
+model User {
+  id Int @id @default(autoincrement())
+
+  uid      String?      @unique // for in-application research
+  sub      String?      @unique // from auth0
+  name     String?
+  ctime    DateTime     @default(now()) @db.Timestamp(6)
+  image    String?
+  profile  Profile?
+  privacy  Privacy?
+  contact  Contact?
+  friends  FriendShip[]
+  sentMsgs Message[]    @relation("Sender")
+}
+
+// Profile model
+model Profile {
+  id     Int  @id @default(autoincrement())
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int  @unique
+
+  mtime DateTime @default(now()) @db.Timestamp(6)
+  bio   String?
+}
+
+// Privacy model
+model Privacy {
+  id     Int  @id @default(autoincrement())
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int  @unique
+
+  mtime           DateTime @default(now()) @db.Timestamp(6)
+  searchable      Boolean  @default(true)
+  showReadReceipt Boolean  @default(true)
+}
+
+// Contact model
+model Contact {
+  id     Int      @id @default(autoincrement())
+  user   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int      @unique
+  mtime  DateTime @default(now()) @db.Timestamp(6)
+
+  sentFriendRequests     FriendRequest[] @relation("SentFriendRequests")
+  receivedFriendRequests FriendRequest[] @relation("ReceivedFriendRequests")
+  friendShips            FriendShip[]
+  sessions               Session[]
+}
+
+// FriendRequest model
+model FriendRequest {
+  id         Int     @id @default(autoincrement())
+  sender     Contact @relation("SentFriendRequests", fields: [senderId], references: [id])
+  senderId   Int
+  receiver   Contact @relation("ReceivedFriendRequests", fields: [receiverId], references: [id])
+  receiverId Int
+
+  ctime  DateTime @default(now()) @db.Timestamp(6)
+  status String // pending, accepted, rejected, expired
+}
+
+// Friend model
+model FriendShip {
+  id        Int     @id @default(autoincrement())
+  contact   Contact @relation(fields: [contactId], references: [id])
+  contactId Int
+  friend    User    @relation(fields: [friendId], references: [id])
+  friendId  Int
+
+  session   Session @relation(fields: [sessionId], references: [id])
+  sessionId Int
+}
+
+// Session model
+model Session {
+  id          Int          @id @default(autoincrement())
+  friendShips FriendShip[]
+  contacts    Contact[]
+
+  ctime    DateTime  @default(now()) @db.Timestamp(6)
+  isActive Boolean   @default(true)
+  messages Message[]
+}
+
+// Message model
+model Message {
+  id        Int     @id @default(autoincrement())
+  sender    User    @relation("Sender", fields: [senderId], references: [id])
+  senderId  Int
+  session   Session @relation(fields: [sessionId], references: [id])
+  sessionId Int
+
+  ctime   DateTime @default(now()) @db.Timestamp(6)
+  read    Boolean  @default(false)
+  type    String // text, image
+  payload String
+}
