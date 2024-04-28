@@ -1,15 +1,15 @@
 'use client'
 
-import React, {ElementRef, useLayoutEffect} from "react";
+import React, {useLayoutEffect} from "react";
 import {ArrowUp} from "lucide-react";
-import {ChangeEvent, KeyboardEvent, MouseEvent, useCallback, useEffect, useRef, useState} from "react";
+import {ChangeEvent, KeyboardEvent, useCallback, useEffect, useRef, useState} from "react";
 
 import {cn} from "@/lib/utils";
 import {createMessage, getMessages} from "@/app/api/prisma/message";
 import {useScrollTop} from "@/hooks/use-scroll-top";
 import {useMediaQuery} from "@/hooks/use-media-query";
 import useAutosizeTextarea from "@/hooks/use-autosize-textarea";
-import {type LocalMessage, RemoteMessage, useSessionMessagesStore} from "@/hooks/use-session-messages-store";
+import {type LocalMessage, useSessionMessagesStore} from "@/hooks/use-session-messages-store";
 import {Textarea} from "@/components/ui/textarea";
 import MessageBar from "@/components/session/MessageBar";
 import {useLocalUser} from "@/components/provider/local-user";
@@ -43,6 +43,12 @@ export default function SessionChatBox({
   const bottomAnchorRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+  const backToBottom = useCallback(() => {
+    bottomAnchorRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  }, []);
+
   const fetchMessages = useCallback(({ take, from, callback }: {
     take: number;
     from?: number;
@@ -71,12 +77,12 @@ export default function SessionChatBox({
   // Fetch messages when enter the page
   useEffect(() => {
     fetchMessages({ take: 40, callback: backToBottom });
-  }, [fetchMessages]);
+  }, [backToBottom, fetchMessages]);
 
   // Go to bottom when enter the page
   useLayoutEffect(() => {
     backToBottom();
-  }, []);
+  }, [backToBottom]);
 
   // Stay the same view when fetch history
   useLayoutEffect(() => {
@@ -88,12 +94,6 @@ export default function SessionChatBox({
     }
     prevScrollHeight.current = currentContainer.scrollHeight;
   }, [isLoading, session]);
-
-  const backToBottom = useCallback(() => {
-    bottomAnchorRef.current?.scrollIntoView({
-      behavior: "smooth",
-    });
-  }, []);
 
   /************* Input Bar Block **************/
   const onInputChange = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -120,8 +120,9 @@ export default function SessionChatBox({
     createMessage(localUser?.sub!, newMessage).then((result) => {
       updateMessage(sessionId, result || newMessage, newMessage.id);
     }).finally(backToBottom);
-  }, [addMessage, localUser, sessionId, updateMessage]);
-  const onSend = useCallback((e: MouseEvent<SVGSVGElement>) => {
+  }, [addMessage, backToBottom, localUser, sessionId, updateMessage]);
+
+  const onSend = useCallback(() => {
     if(input === '')return;
     sendNewMessage(input)
     setInput("")
@@ -134,7 +135,7 @@ export default function SessionChatBox({
     if(isDesktop){
       if(e.key === 'Enter' && !e.shiftKey){
         e.preventDefault()
-        onSend({} as MouseEvent<SVGSVGElement>);
+        onSend();
       }
     }
   }, [onSend, isDesktop])
@@ -144,7 +145,8 @@ export default function SessionChatBox({
     <div className={cn(`flex flex-col`, className)}>
       <div
         ref={parentRef}
-        className={`mx-2 flex-grow overflow-y-auto ${isDesktop ? 'light-scrollbar' : 'no-scrollbar'}`}>
+        className={`mx-2 flex flex-col-reverse flex-grow overflow-y-auto ${isDesktop ? 'light-scrollbar' : 'no-scrollbar'}`}>
+        <div ref={bottomAnchorRef}/>
         <div className={`flex flex-col-reverse`}>
           {session.messageOrder?.length > 0 && session.messageOrder.map((id, index) => {
             const msg = session.messages[id];
@@ -162,7 +164,6 @@ export default function SessionChatBox({
             )
           })}
         </div>
-        <div ref={bottomAnchorRef}/>
       </div>
       <div className={`flex-none h-auto w-full relative p-2`}>
         <Textarea

@@ -7,8 +7,7 @@ const next = require('next')
 const socketio = require('socket.io')
 
 const port = parseInt(process.env.PORT, 10) || 3000
-console.log(process.env.NODE_NEV)
-const dev = process.env.NODE_NEV !== 'production' // cross-env may not work on windows, in this situation you can simply give true/false
+const dev = process.env.NODE_ENV !== 'production' // cross-env may not work on windows, in this situation you can simply give true/false
 const nextApp = next({ dev })
 const nextHandler = nextApp.getRequestHandler()
 
