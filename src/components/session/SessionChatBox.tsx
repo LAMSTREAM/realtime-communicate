@@ -145,9 +145,8 @@ export default function SessionChatBox({
     <div className={cn(`flex flex-col`, className)}>
       <div
         ref={parentRef}
-        className={`mx-2 flex flex-col-reverse flex-grow overflow-y-auto ${isDesktop ? 'light-scrollbar' : 'no-scrollbar'}`}>
-        <div ref={bottomAnchorRef}/>
-        <div className={`flex flex-col-reverse`}>
+        className={`mx-2 flex-grow overflow-y-auto ${isDesktop ? 'light-scrollbar' : 'no-scrollbar'}`}>
+        <div className={`flex flex-col-reverse min-h-full`}>
           {session.messageOrder?.length > 0 && session.messageOrder.map((id, index) => {
             const msg = session.messages[id];
             //remove duplicate avatar
@@ -164,6 +163,7 @@ export default function SessionChatBox({
             )
           })}
         </div>
+        <div ref={bottomAnchorRef}/>
       </div>
       <div className={`flex-none h-auto w-full relative p-2`}>
         <Textarea
