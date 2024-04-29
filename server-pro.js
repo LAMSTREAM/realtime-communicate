@@ -8,7 +8,11 @@ const socketio = require('socket.io')
 
 const port = parseInt(process.env.PORT, 10) || 3000
 const dev = process.env.NODE_ENV !== 'production'
-const nextApp = next({ dev })
+const appDir = './.next/standalone'; // Define the directory for standalone output
+const staticDir = './.next/output'; // Define the directory for static output
+
+
+const nextApp = next({ dev, dir: appDir })
 const nextHandler = nextApp.getRequestHandler()
 
 nextApp.prepare().then(async () => {
@@ -68,6 +72,9 @@ nextApp.prepare().then(async () => {
 
     })
   })
+
+  // Serve static files from the output directory
+  app.use(express.static(staticDir));
 
   app.all('*', (req, res) => nextHandler(req, res))
 
