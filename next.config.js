@@ -2,7 +2,6 @@ const {config} = require("./project-meta-config");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone', // For custom server
   basePath: config.basePath,
   //assetPrefix: process.env.NEXT_PUBLIC_BASEPATH || '',
   reactStrictMode: true,
