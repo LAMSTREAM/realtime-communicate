@@ -84,6 +84,23 @@ export default function SessionChatBox({
     backToBottom();
   }, [backToBottom]);
 
+  // When view is close to bottom(50rem), new message cause view scroll into bottom
+  let lastMsg;
+  if(session.messageOrder)lastMsg = session.messageOrder[0]
+  useLayoutEffect(() => {
+    const _ref = parentRef.current
+    if(!_ref)return;
+    const { scrollTop, clientHeight, scrollHeight } = _ref;
+    console.log({
+      scrollTop,
+      clientHeight,
+      scrollHeight
+    })
+    if (scrollHeight - scrollTop <= clientHeight + 320) {
+      backToBottom()
+    }
+  }, [lastMsg]);
+
   // Stay the same view when fetch history
   useLayoutEffect(() => {
     if (!parentRef.current || !isLoading) return;
