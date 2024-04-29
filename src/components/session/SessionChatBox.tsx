@@ -170,7 +170,7 @@ export default function SessionChatBox({
           ref={textareaRef}
           autoFocus={true}
           rows={1}
-          className={`pr-12 text-md font-semibold resize-none no-scrollbar min-h-0 focus-visible:ring-offset-0`}
+          className={`pr-12 text-sm font-medium resize-none no-scrollbar min-h-0 focus-visible:ring-offset-0`}
           value={input}
           onChange={onInputChange}
           onKeyDown={onInputPress}

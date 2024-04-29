@@ -21,7 +21,7 @@ export default function Page(){
   }, [])
 
   return (
-    <main className={`p-6 mx-auto max-w-2xl space-y-1 flex flex-col items-center justify-center`}>
+    <main className={`p-6 space-y-1 flex flex-col items-center justify-center`}>
       <SheetDialog
         title={`Search User`}
         customTrigger={()=>(

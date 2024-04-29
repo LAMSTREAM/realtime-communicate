@@ -42,7 +42,7 @@ export function TypographyP({children, className}: React.HTMLAttributes<HTMLDivE
 
 export function TypographyLeadP({children, className}: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <p className={cn("leading-7 [&:not(:first-child)]:mt-6", className)}>
+    <p className={cn("overflow-anywhere leading-7 [&:not(:first-child)]:mt-6", className)}>
       {children}
     </p>
   )
@@ -50,7 +50,7 @@ export function TypographyLeadP({children, className}: React.HTMLAttributes<HTML
 
 export function TypographyBlockquote({children, className}: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <blockquote className={cn("mt-6 border-l-2 pl-6 italic", className)}>
+    <blockquote className={cn("overflow-anywhere mt-6 border-l-2 pl-6 italic", className)}>
       {children}
     </blockquote>
   )
@@ -59,7 +59,7 @@ export function TypographyBlockquote({children, className}: React.HTMLAttributes
 export function TypographyInlineCode({children, className}: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <code
-      className={cn("relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold", className)}>
+      className={cn("overflow-anywhere relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold", className)}>
       {children}
     </code>
   )
@@ -67,26 +67,26 @@ export function TypographyInlineCode({children, className}: React.HTMLAttributes
 
 export function TypographyLead({children, className}: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <p className={cn("text-xl text-muted-foreground", className)}>
+    <p className={cn("overflow-anywhere text-xl text-muted-foreground", className)}>
       {children}
     </p>
   )
 }
 
 export function TypographyLarge({children, className}: React.HTMLAttributes<HTMLDivElement>) {
-  return (<div className={cn("text-lg font-semibold", className)}>
+  return (<div className={cn("overflow-anywhere text-lg font-semibold", className)}>
     {children}
   </div>)
 }
 
 export function TypographySmall({children, className}: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <small className={cn("text-sm font-medium leading-none", className)}>{children}</small>
+    <small className={cn("overflow-anywhere text-sm font-medium", className)}>{children}</small>
   )
 }
 
 export function TypographyMuted({children, className}: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <p className={cn("text-sm text-muted-foreground", className)}>{children}</p>
+    <p className={cn("overflow-anywhere text-sm text-muted-foreground", className)}>{children}</p>
   )
 }

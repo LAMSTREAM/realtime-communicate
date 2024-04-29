@@ -2,7 +2,7 @@ import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 
 import { v4 as uuidv4 } from 'uuid';
-import {config} from "../../project-meta-config";
+import {config} from "@@/project-meta-config";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -20,6 +20,16 @@ export function getFormattedDate(): string {
   const day = today.getUTCDate().toString().padStart(2, '0');
 
   return `${year}-${month}-${day}`;
+}
+
+export function formateTime(date: Date): string {
+    let hours: number|string = date.getHours();
+    let minutes: number|string = date.getMinutes();
+
+    hours = hours.toString().padStart(2, '0');
+    minutes = minutes.toString().padStart(2, '0');
+
+    return `${hours}:${minutes}`;
 }
 
 export function delay(milliseconds: number) {

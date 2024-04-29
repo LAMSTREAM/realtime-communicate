@@ -5,9 +5,9 @@ import Image from "next/image";
 
 import {config} from "@@/project-meta-config";
 import {cn} from '@/lib/utils';
+import UserButton from "@/components/user/UserButton";
 import {ModeToggle} from "@/components/theme/theme-switcher";
 import {TypographyH4} from "@/components/typography/Typography";
-import UserButton from "@/components/user/UserButton";
 
 export default async function Header({ className }: React.HTMLAttributes<HTMLDivElement>){
 

@@ -1,11 +1,11 @@
 'use client'
 
 import {cn, getUserImageSource} from "@/lib/utils";
-import {TypographyP} from "@/components/typography/Typography";
+import { TypographySmall } from "@/components/typography/Typography";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import UserProfile from "@/components/user/UserProfile";
 import SheetDialog from "@/components/subpage/sheet-dialog";
-import type {Message, RemoteMessage, LocalMessage} from "@/hooks/use-session-messages-store";
+import type {Message,  LocalMessage} from "@/hooks/use-session-messages-store";
 import {Loader2} from "lucide-react";
 import {useLocalUser} from "@/components/provider/local-user";
 
@@ -25,11 +25,11 @@ export default function MessageBar({
   return (
     <div className={cn(`mt-1 flex ${ownMessage ? 'flex-row' : `flex-row-reverse`} justify-end`, className)}>
       {(message as LocalMessage).isLocal && <Loader2 className={`my-auto mr-1 h-4 w-4 text-zinc-500 animate-spin`}/>}
-      <TypographyP className={`py-1 px-3 min-w-[2rem] max-w-[66.67%] ${ownMessage 
-        ? 'text-white bg-blue-500' 
-        : 'text-black bg-zinc-200 dark:text-white dark:bg-zinc-700'} rounded-xl`}>
+      <TypographySmall className={`py-1 px-3 min-w-[2rem] max-w-[66.67%] ${ownMessage 
+        ? 'text-white bg-blue-500 selection:bg-green-300 selection:text-black' 
+        : 'text-black bg-zinc-200 dark:text-white dark:bg-zinc-700 selection:bg-pink-300 dark:selection:text-black'} rounded-xl flex items-center justify-center`}>
         {message.payload}
-      </TypographyP>
+      </TypographySmall>
       {hide
         ? (<div className="w-8 h-8 mx-1 self-end select-none"/>)
         : (<SheetDialog title={`Profile`} customTrigger={() => (

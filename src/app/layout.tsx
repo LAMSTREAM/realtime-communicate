@@ -5,10 +5,12 @@ import {UserProvider} from "@auth0/nextjs-auth0/client";
 
 import '@/css/global.css'
 import {meta, config} from "@@/project-meta-config";
+import {Toaster} from "@/components/ui/sonner";
 import {ThemeProvider} from "@/components/theme/theme-provider"
 import {SocketProvider} from "@/components/provider/socket-provider";
 import {StateModalProvider} from "@/components/provider/state-modal";
 import {LocalUserProvider} from "@/components/provider/local-user";
+
 
 const faviconPath = config.basePath + '/favicon';
 
@@ -53,6 +55,7 @@ export default async function RootLayout({
         >
           <LocalUserProvider>
             <SocketProvider>
+              <Toaster />
               {/*SocketProvide should under LocalUserProvider, */}
               {/*it needs to use session.user.sub to subscribe socket event*/}
               {children}

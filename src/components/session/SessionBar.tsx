@@ -17,16 +17,13 @@ export default function SessionBar({
   const router = useRouter()
 
   let message;
-  if(session.message.type === '')message = '';
-  else if(session.message.type === 'text')message = session.message.payload;
-  else message = session.message.type + ' message';
+  if(session.message.type === 'text')message = session.message.payload;
+  else message = `[${session.message.type} message]`;
 
   return (
     <div
       className={cn(`transition duration-200 bg-background hover:bg-secondary border-t-[1px] p-2 w-full flex items-center hover:cursor-pointer`, className)}
-      onClick={()=>{
-        router.push(`/session/${session.sessionId}`)
-      }}
+      onClick={()=>router.push(`/session/${session.sessionId}`)}
     >
       <div className={`w-16`}>
         <Avatar className="w-12 h-12 mx-2 select-none">

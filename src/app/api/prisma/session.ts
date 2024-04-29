@@ -78,7 +78,7 @@ export async function getActiveSessions(sub: string){
           name: session.contacts[0].user.name || '',
           image: session.contacts[0].user.image || '',
           message: session.messages[0] || {
-            type: '',
+            type: 'text',
             payload: '',
             ctime: new Date(0)
           }

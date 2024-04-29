@@ -6,12 +6,14 @@ import React, {
   useEffect,
   useState
 } from "react";
+import {toast} from "sonner";
 import { io } from "socket.io-client";
 
 import {config} from "@@/project-meta-config";
 import {getSesssions} from "@/app/api/prisma/session";
 import {getMessageById} from "@/app/api/prisma/message";
 import {useLocalUser} from "@/components/provider/local-user";
+import MessagePrompt from "@/components/session/MessagePrompt";
 import {RemoteMessage, useSessionMessagesStore} from "@/hooks/use-session-messages-store";
 
 type SocketContextType = {
@@ -62,7 +64,11 @@ export const SocketProvider = ({
     socket.on('newMessage', (data) => {
       getMessageById(localUser?.sub!, data.sessionId, data.messageId)
         .then((msg: RemoteMessage | null) => {
-          if (msg) addMessage(data.sessionId, msg)
+          if(!msg)return;
+          addMessage(data.sessionId, msg)
+
+          if(msg.sender.id === localUser?.id)return;
+          toast((<MessagePrompt msg={msg} />))
         })
     })
 
@@ -78,7 +84,7 @@ export const SocketProvider = ({
   }, [localUser, addMessage]);
 
   return (
-    <SocketContext.Provider value={{ socket, isConnected }}>
+    <SocketContext.Provider value={{socket, isConnected}}>
       {children}
     </SocketContext.Provider>
   )

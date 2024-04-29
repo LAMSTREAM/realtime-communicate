@@ -55,7 +55,7 @@ export default function LoginModal(){
           <AlertDialogHeader>
             <AlertDialogTitle><b>Welcome to SChat!</b></AlertDialogTitle>
             <AlertDialogDescription>
-              To provide you with a personalized and secure experience, we require all users to log in.
+              To provide you with a personalized and secure experience, we require all users to sign in.
               Please sign in to access the full range of features and exclusive content. Thank you for being a part of our
               community!
             </AlertDialogDescription>
@@ -67,7 +67,7 @@ export default function LoginModal(){
                 className={`p-0 flex items-center space-x-4 select-none`}
               >
                 <LogIn/>
-                <p>Log In</p>
+                <p>Sign In</p>
               </Link>
             </AlertDialogAction>
           </AlertDialogFooter>
