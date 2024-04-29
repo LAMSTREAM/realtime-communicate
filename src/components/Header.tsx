@@ -19,7 +19,7 @@ export default async function Header({ className }: React.HTMLAttributes<HTMLDiv
       <div className={`mx-auto max-w-2xl h-full flex justify-between`}>
         <Link href={`/session`} className={`flex items-center select-none`}>
           <Image
-            src={`${config.basePath}/logo.png`} alt={`hello`}
+            src={`${config.basePath}/logo.png`} alt={`SChat`}
             className={`pr-4`}
             width={76} height={63}
             priority
