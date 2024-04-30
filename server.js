@@ -61,7 +61,7 @@ nextApp.prepare().then(async () => {
     })
 
     socket.onAny((event, data) => {
-      console.log(`[event] [${event}] [${data.type}]`)
+      console.log(`[event][${event}][${data.type}]`)
     })
 
     socket.on("disconnect", () => {

@@ -7,7 +7,7 @@ import {usePathname, useRouter} from "next/navigation";
 import {useEffect, useState, ChangeEvent, useId, useCallback} from "react";
 
 import {cn, delay, getUserImageSource} from "@/lib/utils";
-import {uploadProfileImage} from "@/app/api/file/profileImage";
+import {uploadProfileImage} from "@/app/api/upload/uploadProfileImage";
 import {getProfileDataBySub, setProfileDataBySub} from "@/app/api/form/profile";
 import {Button} from "@/components/ui/button";
 import {

@@ -4,7 +4,7 @@ import fs from 'fs-extra';
 import {generateRandomFilename, getFormattedDate} from "@/lib/utils";
 import {getCurrentSub} from "@/lib/auth";
 
-const uploadDir = './public/uploads/profileimg'
+const uploadDir = './uploads/images/avatar'
 export async function uploadProfileImage(base64Image: string){
   if(!base64Image)return '';
   const curSub = await getCurrentSub()
@@ -19,8 +19,8 @@ export async function uploadProfileImage(base64Image: string){
     //write file
     const buffer = Buffer.from(base64Image, 'base64')
     fs.writeFileSync(newPath, buffer)
-    //remove /public because frontend don't need it to address resource
-    return newPath.replace("./public", "")
+    // make path of image as '/api/uploads/images/avatar/[filename]'
+    return newPath.replace(".", "/api")
   } catch (error){
     console.log(error)
     return ''

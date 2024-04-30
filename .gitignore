@@ -37,7 +37,7 @@ yarn-error.log*
 next-env.d.ts
 
 #upload file
-/public/uploads
+/uploads
 
 #prisma migration
 /prisma/migrations
